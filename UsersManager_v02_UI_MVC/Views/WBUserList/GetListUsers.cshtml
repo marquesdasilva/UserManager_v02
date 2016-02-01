@@ -1,0 +1,111 @@
+﻿@model PagedList.IPagedList<UsersManager_v02_DAL.Entities.User>
+@using PagedList.Mvc;
+@using UsersManager_v02_UI_MVC.Code.HtmlHelperExtensions;
+
+@*
+    Este Html.Resource não é um helper nativo do ASP MVC.
+    Foi encontrado em: http://stackoverflow.com/questions/5433531/using-sections-in-editor-display-templates/5433722#5433722
+
+    Uma partial view (ou neste caso, um 'Webblock") não pode, nativamente, renderizar a @section [name]{}.
+    Logo, se quisermos ter css ou javascript apenas ao nível do webblock não podemos 'nativamente'.
+
+    Este Html.Resource resolve o problema. Esta extensão está disponivel na classe RenderSectionsHelper. Esta por sua vez
+    tem o código encontrado no link acima.
+*@
+@Html.Resource(@<style type="text/css">
+     #WBUserList .input-group {
+         display: inline;
+     }
+</style>
+, "css")
+
+<div id="WBUserList">
+    @using (Ajax.BeginForm("GetListUsers", "WBUserList", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "WBUserList", InsertionMode = InsertionMode.ReplaceWith }))
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create", "User")
+        </p>
+
+        <div class="input-group">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Search by name,username or email...", @class = "form-control" })
+            <input type="submit" class="btn btn-primary" value="Search" />
+            @Ajax.ActionLink("Clear", "GetListUsers", new { SortOrder = "", CurrentFilter = "", SearchString = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "WBUserList", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "btn btn-default" })
+        </div>
+
+        <br />
+
+        <div style="text-align:right;">
+            @(((Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) * Model.PageSize) > ViewBag.Count ? (ViewBag.Count) : ((Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) * Model.PageSize)) of @ViewBag.Count rows
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Ajax.ActionLink((Html.DisplayNameFor(model => model.First().Name)).ToHtmlString(), "GetListUsers", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "WBUserList", InsertionMode = InsertionMode.ReplaceWith })
+                </th>
+                <th>
+                    @Ajax.ActionLink((Html.DisplayNameFor(model => model.First().Username)).ToHtmlString(), "GetListUsers", new { sortOrder = ViewBag.UsernameSortParm, currentFilter = ViewBag.CurrentFilter }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "WBUserList", InsertionMode = InsertionMode.ReplaceWith })
+                </th>
+                <th>
+                    @Ajax.ActionLink((Html.DisplayNameFor(model => model.First().EmailAdress)).ToHtmlString(), "GetListUsers", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "WBUserList", InsertionMode = InsertionMode.ReplaceWith }, new { })
+                </th>
+                <th style="text-align:center;">
+                    @Html.DisplayNameFor(model => model.First().IsActive)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(" ","Edit", "User", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit primary" })
+                        @Html.ActionLink(item.Name, "Details", "User", new { id = item.Id }, new {})
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailAdress)
+                    </td>
+                    <td style="text-align:center;">
+                        @Html.Partial("Widgets/_CheckedPartial", item.IsActive)
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <br />
+
+        <div style="text-align:right;">
+            @Html.PagedListPager(Model, pageNumber => Url.Action( "GetListUsers",
+                new
+                {
+                    page = pageNumber,
+                    sortOrder = ViewBag.CurrentSort,
+                    currentFilter = ViewBag.CurrentFilter
+                }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "WBUserList" }))
+        </div>
+    }
+</div>
+
+@*
+    Este Html.Resource não é um helper nativo do ASP MVC.
+    Foi encontrado em: http://stackoverflow.com/questions/5433531/using-sections-in-editor-display-templates/5433722#5433722
+
+    Uma partial view (ou neste caso, um 'Webblock") não pode, nativamente, renderizar a @section [name]{}.
+    Logo, se quisermos ter css ou javascript apenas ao nível do webblock não podemos 'nativamente'.
+
+    Este Html.Resource resolve o problema. Esta extensão está disponivel na classe RenderSectionsHelper. Esta por sua vez
+    tem o código encontrado no link acima.
+*@
+@*
+    Exemplo de script a renderizar na página:
+
+    @Html.Resource(@<script type="text/javascript">
+        $(document).ready(function () {
+            alert('hello world!');
+        });
+        </script>
+    , "js")
+*@

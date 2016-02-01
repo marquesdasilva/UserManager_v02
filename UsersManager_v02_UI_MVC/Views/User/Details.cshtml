@@ -1,0 +1,82 @@
+﻿@model UsersManager_v02_DAL.Entities.User
+@using UsersManager_v02_UI_MVC.Models.Widgets
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2><span class="glyphicon glyphicon-eye-open"></span> Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAdress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAdress)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.Partial("Widgets/_CheckedPartial", Model.IsActive)
+        </dd>
+        <br />
+        <dt>
+        </dt>
+
+        <dd>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) @Html.ActionLink("Back to List", "Index")
+        </dd>
+    </dl>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="LinedHeader">@Html.Partial("Widgets/_ExpandPartial", new ExpandCollapse { ElementID = "coll1", DestinationSelector = "#Collapse" }) List of Something</h4>
+
+            <div id="Collapse" class="collapse">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderAction("Preparation", "WBUserList", new { DepartmentId = 5 });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h4 class="LinedHeader">@Html.Partial("Widgets/_ExpandPartial", new ExpandCollapse { ElementID = "col2", DestinationSelector = "#Collapse2" }) List of Something</h4>
+
+            <div id="Collapse2" class="collapse">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderAction("Preparation", "WBUserList", new { DepartmentId = 5 });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

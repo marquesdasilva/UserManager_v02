@@ -1,0 +1,30 @@
+﻿@model Alert
+
+@using UsersManager_v02_UI_MVC.Code.HtmlHelperExtensions;
+@using UsersManager_v02_UI_MVC.Models.Widgets;
+
+
+@Html.Resource(@<script type="text/javascript">
+    $.notify({
+        message: '@Model.Message'
+    }, {
+        type: '@Model.Type',
+        offset: 50,
+        placement: {
+            from: "top",
+            align: "center"
+        },
+        delay: 3000,
+        animate: {
+            enter: 'animated fadeInDown',
+            exit: 'animated fadeOutUp'
+        },
+        showProgressbar: true
+    });
+</script>
+, "js")
+
+@{
+    TempData[AlertMessage.StringAlert] = null;
+}
+

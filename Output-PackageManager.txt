@@ -1,0 +1,11 @@
+﻿Attempting to gather dependencies information for package 'Newtonsoft.Json.8.0.2' with respect to project 'UsersManager_v03_SL', targeting '.NETFramework,Version=v4.5.2'
+Attempting to resolve dependencies for package 'Newtonsoft.Json.8.0.2' with DependencyBehavior 'Lowest'
+Resolving actions to install package 'Newtonsoft.Json.8.0.2'
+Resolved actions to install package 'Newtonsoft.Json.8.0.2'
+Removed package 'Newtonsoft.Json.6.0.4' from 'packages.config'
+Successfully uninstalled 'Newtonsoft.Json.6.0.4' from UsersManager_v03_SL
+Package 'Newtonsoft.Json.8.0.2' already exists in folder 'C:\Users\tsilva\documents\visual studio 2015\Projects\UserManager_v02\packages'
+Added package 'Newtonsoft.Json.8.0.2' to 'packages.config'
+Executing script file 'C:\Users\tsilva\documents\visual studio 2015\Projects\UserManager_v02\packages\Newtonsoft.Json.8.0.2\tools\install.ps1'...
+Successfully installed 'Newtonsoft.Json 8.0.2' to UsersManager_v03_SL
+========== Finished ==========

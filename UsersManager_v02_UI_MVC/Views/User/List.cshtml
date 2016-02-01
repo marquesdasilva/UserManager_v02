@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<UsersManager_v02_DAL.Entities.User>
+@using PagedList.Mvc;
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="input-group">
+    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Search by name,username or email...", @class = "form-control" })
+    <input type="submit" class="btn btn-primary" value="Search" />
+    <input type="button" class="btn btn-default" value="Clear" onclick="location.href='@Url.Action("Index", "User")'" />
+</div>
+
+<br />
+
+<div style="text-align:right;">
+    @(((Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) * Model.PageSize) > ViewBag.Count ? (ViewBag.Count) : ((Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) * Model.PageSize)) of @ViewBag.Count rows
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink((Html.DisplayNameFor(model => model.First().Name)).ToHtmlString(), "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink((Html.DisplayNameFor(model => model.First().Username)).ToHtmlString(), "Index", new { sortOrder = ViewBag.UsernameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink((Html.DisplayNameFor(model => model.First().EmailAdress)).ToHtmlString(), "Index", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAdress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div style="text-align:right;">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+
+

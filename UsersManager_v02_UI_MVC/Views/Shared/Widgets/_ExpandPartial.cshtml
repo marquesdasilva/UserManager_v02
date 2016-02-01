@@ -1,0 +1,28 @@
+﻿@model UsersManager_v02_UI_MVC.Models.Widgets.ExpandCollapse
+
+@using UsersManager_v02_UI_MVC.Code.HtmlHelperExtensions;
+
+@if (!Model.IsCollapsed) //Is Collapsed
+{
+    <a id="@Model.ElementID" href="@Model.DestinationSelector" class="glyphicon glyphicon-plus-sign btn-default" data-toggle="collapse" style="margin-right:5px;text-decoration:none;"></a>
+}
+else
+{
+    <a id="@Model.ElementID" href="@Model.DestinationSelector" class="glyphicon glyphicon-minus-sign btn-default" data-toggle="collapse" style="margin-right:5px;text-decoration:none;"></a>
+}
+
+@Html.Resource(@<script type="text/javascript">
+    $(document).ready(function () {
+        $('#@Model.ElementID').click(function () {
+            if ($(this).hasClass("glyphicon-plus-sign")) {
+                $(this).removeClass("glyphicon-plus-sign");
+                $(this).addClass("glyphicon-minus-sign");
+            }
+            else {
+                $(this).removeClass("glyphicon-minus-sign");
+                $(this).addClass("glyphicon-plus-sign");
+            }
+        })
+    });
+    </script>
+    , "js")

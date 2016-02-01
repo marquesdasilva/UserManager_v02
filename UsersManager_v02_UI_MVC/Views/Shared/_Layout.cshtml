@@ -1,0 +1,39 @@
+﻿@using UsersManager_v02_UI_MVC.Code.HtmlHelperExtensions;
+@using UsersManager_v02_UI_MVC.Models.Widgets;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The description of my page" />
+
+    <title>@ViewBag.Title - Users Manager</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @RenderSection("styles", required: false)
+    @Html.RenderResources("css")
+</head>
+<body>
+    @Html.Partial("Content/_MenuPartial") <br />
+
+    <div class="container body-content">
+        @RenderBody()
+        @Html.Partial("Content/_FooterPartial")
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/ajaxmvc")
+    @Scripts.Render("~/bundles/bootstrapnotify")
+
+    @if (TempData[AlertMessage.StringAlert] != null)
+    {
+        @Html.Partial("Widgets/_AlertPartial", new Alert { Type = (TempData[AlertMessage.StringAlert] as Alert).Type, Message = (TempData[AlertMessage.StringAlert] as Alert).Message })
+    }
+  
+    @RenderSection("scripts", required: false)
+    @Html.RenderResources("js")
+</body>
+</html>
